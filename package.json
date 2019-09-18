@@ -7,6 +7,7 @@
     "build:dev": "webpack --config=./config/webpack.development.config.js --mode=development"
   },
   "dependencies": {
+    "@types/node": "^12.7.5",
     "@types/webpack-env": "^1.14.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
