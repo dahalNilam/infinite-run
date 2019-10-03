@@ -1,35 +1,42 @@
 import React from "react";
-import * as PIXI from "pixi.js";
-import {
-  CreateApplication,
-  CreateRectangle,
-  CreateImage,
-  AddObjects
-} from "App/Utilities/PIXIUtils";
+import { GraphRenderer } from "./GraphRenderer";
+import { IPosition } from "Src/App/Interfaces/IPosition";
 
-export default class GameStage extends React.Component {
-  private app: PIXI.Application = CreateApplication();
+interface IState {
+  hero: IPosition | null;
+}
 
-  private DOM = React.createRef<HTMLDivElement>();
+export class GameStage extends React.Component<{}, IState> {
+  public readonly state: IState = {
+    hero: null
+  };
+
+  private parentDOMNode = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
-    if (this.DOM.current) {
-      this.initializeCanvas();
-
-      this.DOM.current.appendChild(this.app.view);
-    }
+    this.loadHero();
   }
 
-  private initializeCanvas = () => {
-    const rectangle = CreateRectangle(50, 50, 100, 100, 0xde3249);
+  private loadHero = () => {
+    const hero: IPosition = { x: 50, y: 50 };
 
-    const mario = CreateImage(200, 50, 50, 50, "src/Assets/mario.png");
-
-    AddObjects(this.app, rectangle);
-    AddObjects(this.app, mario);
+    this.setState({ hero });
   };
 
   public render() {
-    return <div ref={this.DOM} />;
+    const { hero } = this.state;
+
+    if (!hero) {
+      return null;
+    }
+
+    return (
+      <div ref={this.parentDOMNode}>
+        <GraphRenderer
+          hero={hero}
+          attachToParent={this.parentDOMNode.current}
+        />
+      </div>
+    );
   }
 }

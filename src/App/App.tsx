@@ -1,5 +1,5 @@
 import React from "react";
-import GameStage from "./Pages/GameStage/GameStage";
+import { GameStage } from "./Pages/GameStage/GameStage";
 
 class App extends React.Component {
   render() {
